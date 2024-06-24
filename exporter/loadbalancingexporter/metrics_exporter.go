@@ -149,7 +149,7 @@ func splitMetricsByResourceServiceName(md pmetric.Metrics) (map[string]pmetric.M
 
 		svc, ok := rm.Resource().Attributes().Get(conventions.AttributeServiceName)
 		if !ok {
-			return nil, fmt.Errorf("%s not found in resource attributes", conventions.AttributeServiceName)
+			return nil, fmt.Errorf("%s is missing in resource attributes", conventions.AttributeServiceName)
 		}
 
 		newMD := pmetric.NewMetrics()
