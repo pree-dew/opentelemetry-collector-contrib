@@ -5,7 +5,6 @@ package loadbalancingexporter // import "github.com/open-telemetry/opentelemetry
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"sync"
 	"time"
@@ -69,7 +68,6 @@ func newMetricsExporter(params exporter.Settings, cfg component.Config) (*metric
 		return nil, fmt.Errorf("unsupported routing_key: %q", cfg.(*Config).RoutingKey)
 	}
 	return &metricExporter, nil
-
 }
 
 func (e *metricExporterImp) Capabilities() consumer.Capabilities {
@@ -151,7 +149,7 @@ func splitMetricsByResourceServiceName(md pmetric.Metrics) (map[string]pmetric.M
 
 		svc, ok := rm.Resource().Attributes().Get(conventions.AttributeServiceName)
 		if !ok {
-			return nil, errors.New("unable to get service name")
+			return nil, fmt.Errorf("%s not found in resource attributes", conventions.AttributeServiceName)
 		}
 
 		newMD := pmetric.NewMetrics()
